@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: Admin
+Build-Jdk: 16.0.2
+Implementation-Title: appchaybo
+Implementation-Version: 1.0
+Implementation-Vendor-Id: com.vupham
+Implementation-Vendor: Pivotal Software, Inc.
+Implementation-URL: https://projects.spring.io/spring-boot/appchaybo/
+Created-By: Maven Integration for Eclipse
+
