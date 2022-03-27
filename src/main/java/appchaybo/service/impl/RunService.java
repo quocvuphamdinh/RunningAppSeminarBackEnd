@@ -51,4 +51,14 @@ public class RunService implements IRunService{
 		runEntity = runRepository.save(runEntity);
 		return runConverter.toDTO(runEntity);
 	}
+
+	@Override
+	public List<RunDTO> findByUserId(Long userId) {
+		List<RunEntity> runEntity = runRepository.findByUserId(userId);
+		List<RunDTO> listRunDTO = new ArrayList<RunDTO>();
+		for(int i=0;i<runEntity.size();i++) {
+			listRunDTO.add(runConverter.toDTO(runEntity.get(i)));
+		}
+		return listRunDTO;
+	}
 }

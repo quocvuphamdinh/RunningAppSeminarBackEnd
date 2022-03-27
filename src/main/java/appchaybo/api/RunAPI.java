@@ -1,6 +1,9 @@
 package appchaybo.api;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +19,10 @@ public class RunAPI {
 	@Autowired
 	private IRunService runService;
 
+	@GetMapping(value = "/run/{userId}")
+	public List<RunDTO> getRun(@PathVariable("userId") Long userId) {
+		return runService.findByUserId(userId);
+	}
 	
 	@PostMapping(value ="/run/{userId}/{userActivitesId}")
 	public RunDTO insertRun(@RequestBody RunDTO runDTO, @PathVariable("userId") Long userId, @PathVariable("userActivitesId") Long userActivitesId) {
