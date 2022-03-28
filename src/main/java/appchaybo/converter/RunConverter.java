@@ -13,9 +13,7 @@ public class RunConverter {
 	
 	public RunEntity toEntity(RunDTO runDTO) {
 		RunEntity runEntity = new RunEntity();
-		if(runDTO.getId()!=null) {
-			runEntity.setId(runDTO.getId());
-		}
+		runEntity.setRunId(runDTO.getId());
 		runEntity.setRunTime(new Date(runDTO.getTimestamp()));
 		runEntity.setAvgSpeedInKMH(Double.valueOf(runDTO.getAverageSpeedInKilometersPerHour().toString()));
 		runEntity.setDistanceInKilometers(runDTO.getDistanceInKilometers());
@@ -26,9 +24,7 @@ public class RunConverter {
 	
 	public RunDTO toDTO(RunEntity runEntity) {
 		RunDTO runDTO = new RunDTO();
-		if(runEntity.getId()!=null) {
-			runDTO.setId(runEntity.getId());
-		}
+		runDTO.setId(runEntity.getRunId());
 		runDTO.setTimestamp(runEntity.getRunTime().getTime());
 		runDTO.setAverageSpeedInKilometersPerHour(Float.valueOf(runEntity.getAvgSpeedInKMH().toString()));
 		runDTO.setDistanceInKilometers(runEntity.getDistanceInKilometers());

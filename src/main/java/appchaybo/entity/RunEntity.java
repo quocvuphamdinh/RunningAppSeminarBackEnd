@@ -39,8 +39,19 @@ public class RunEntity {
 	
 	@Column
 	private Integer caloriesBurned;
+	
+	@Column
+	private Long runId;
 
 	
+	public Long getRunId() {
+		return runId;
+	}
+
+	public void setRunId(Long runId) {
+		this.runId = runId;
+	}
+
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private UserEntity user;
