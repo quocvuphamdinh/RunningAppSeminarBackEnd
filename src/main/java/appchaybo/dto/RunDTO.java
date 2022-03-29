@@ -1,7 +1,8 @@
 package appchaybo.dto;
 
-public class RunDTO extends AbstractDTO<RunDTO>{
+public class RunDTO{
 	
+	private String id;
 	private Long timestamp;
 	private Float averageSpeedInKilometersPerHour;
 	private Integer distanceInKilometers;
@@ -11,6 +12,12 @@ public class RunDTO extends AbstractDTO<RunDTO>{
 	private Long activitiesId;
 	
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public Long getTimestamp() {
 		return timestamp;
 	}

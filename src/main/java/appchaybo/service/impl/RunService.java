@@ -35,8 +35,8 @@ public class RunService implements IRunService{
 	@Override
 	public RunDTO save(RunDTO runDTO) {
 		RunEntity runEntity = new RunEntity();
-		if(runRepository.findOneByRunId(runDTO.getId())!=null) {
-			RunEntity oldRunEntity = runRepository.findOneByRunId(runDTO.getId());
+		if(runRepository.findOneById(runDTO.getId())!=null) {
+			RunEntity oldRunEntity = runRepository.findOneById(runDTO.getId());
 			runEntity = runConverter.toEntity(runDTO, oldRunEntity);
 		}else {
 			runEntity = runConverter.toEntity(runDTO);

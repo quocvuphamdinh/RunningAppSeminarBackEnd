@@ -34,7 +34,7 @@ public class RunAPI {
 	}
 	
 	@PutMapping(value ="/run/{id}")
-	public RunDTO updateRun(@RequestBody RunDTO runDTO, @PathVariable("id") Long id) {
+	public RunDTO updateRun(@RequestBody RunDTO runDTO, @PathVariable("id") String id) {
 		runDTO.setId(id);
 		return runService.save(runDTO);
 	}

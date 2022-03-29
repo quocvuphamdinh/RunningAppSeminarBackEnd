@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -17,13 +15,12 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "run")
 public class RunEntity {
-	public void setId(Long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private String id;
 	
 	@Column
 	private Date runTime;
@@ -39,18 +36,7 @@ public class RunEntity {
 	
 	@Column
 	private Integer caloriesBurned;
-	
-	@Column
-	private Long runId;
 
-	
-	public Long getRunId() {
-		return runId;
-	}
-
-	public void setRunId(Long runId) {
-		this.runId = runId;
-	}
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
@@ -116,7 +102,7 @@ public class RunEntity {
 		this.caloriesBurned = caloriesBurned;
 	}
 
-	public Long getId() {
+	public String getId() {
 		return id;
 	}
 	

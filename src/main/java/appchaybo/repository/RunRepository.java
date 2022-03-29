@@ -9,5 +9,5 @@ import appchaybo.entity.RunEntity;
 public interface RunRepository extends JpaRepository<RunEntity, Long>{
 	
 	List<RunEntity> findByUserId(Long userId);
-	RunEntity findOneByRunId(Long runId);
+	RunEntity findOneById(String id);
 }
