@@ -25,9 +25,6 @@ public class ActivityEntity {
 	private Integer type;
 	
 	@Column
-	private Integer isUseGps;
-	
-	@Column
 	private Integer durationOfWorkouts;
 	
 //	@ManyToMany
@@ -71,14 +68,6 @@ public class ActivityEntity {
 
 	public void setType(Integer type) {
 		this.type = type;
-	}
-
-	public Integer getIsUseGps() {
-		return isUseGps;
-	}
-
-	public void setIsUseGps(Integer isUseGps) {
-		this.isUseGps = isUseGps;
 	}
 
 	public Integer getDurationOfWorkouts() {

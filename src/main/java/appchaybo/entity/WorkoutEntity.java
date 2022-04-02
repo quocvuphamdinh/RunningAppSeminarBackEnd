@@ -23,7 +23,7 @@ public class WorkoutEntity {
 	private String name;
 	
 	@Column
-	private Integer duration;
+	private Long duration;
 	
 //	@ManyToMany(mappedBy = "workoutEntities")
 //	private List<ActivityEntity>activityEntities = new ArrayList<ActivityEntity>();
@@ -47,11 +47,11 @@ public class WorkoutEntity {
 		this.name = name;
 	}
 
-	public Integer getDuration() {
+	public Long getDuration() {
 		return duration;
 	}
 
-	public void setDuration(Integer duration) {
+	public void setDuration(Long duration) {
 		this.duration = duration;
 	}
 
