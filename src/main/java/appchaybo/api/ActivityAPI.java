@@ -20,4 +20,9 @@ public class ActivityAPI {
 	public List<ActivityDTO> getListActivity(@PathVariable("type") Integer type){
 		return activityService.findByType(type);
 	}
+	
+	@GetMapping(value = "/activity/detail/{id}")
+	public ActivityDTO getListActivity(@PathVariable("id") Long id){
+		return activityService.findById(id);
+	}
 }

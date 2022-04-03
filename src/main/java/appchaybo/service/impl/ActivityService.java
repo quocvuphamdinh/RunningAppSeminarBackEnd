@@ -45,4 +45,17 @@ public class ActivityService implements IActivityService{
 		}
 		return activityDTOs;
 	}
+
+	@Override
+	public ActivityDTO findById(Long id) {
+		ActivityEntity activityEntity = activityRepository.findOne(id);
+		ActivityDTO activityDTO = new ActivityDTO();
+		List<ActivityWorkoutEntity> activityWorkoutEntities = activityWorkoutRepository.findByActivityId(activityEntity.getId());
+		for(int j =0 ;j < activityWorkoutEntities.size() ; j++) {
+			WorkoutEntity workoutEntity = workoutRepository.findOne(activityWorkoutEntities.get(j).getWorkout().getId());
+			activityWorkoutEntities.get(j).setWorkout(workoutEntity);
+		}
+		activityDTO = activityConverter.toDTO(activityEntity);
+		return activityDTO;
+	}
 }

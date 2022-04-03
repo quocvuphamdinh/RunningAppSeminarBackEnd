@@ -6,4 +6,5 @@ import appchaybo.dto.ActivityDTO;
 
 public interface IActivityService {
 	public List<ActivityDTO> findByType(Integer type);
+	public ActivityDTO findById(Long id);
 }
