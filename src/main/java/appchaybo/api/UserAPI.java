@@ -1,5 +1,7 @@
 package appchaybo.api;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,5 +33,15 @@ public class UserAPI {
 	public UserDTO updateUser(@RequestBody UserDTO model, @PathVariable("id") Long id) {
 		model.setId(id);
 		return userService.save(model);
+	}
+	
+	@PutMapping(value = "/user/resetpassword")
+	public HashMap<String, String> resetPassword(@RequestBody UserDTO user) {
+		return userService.resetPassword(user.getUserName());
+	}
+	
+	@GetMapping(value = "/user/checkemail/{userName}")
+	public UserDTO checkEmailUser(@PathVariable("userName") String userName) {
+		return userService.checkEmailUser(userName+".com");
 	}
 }

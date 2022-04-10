@@ -7,4 +7,5 @@ import appchaybo.entity.UserEntity;
 public interface UserRepository extends JpaRepository<UserEntity, Long>{
 
 	UserEntity findOneByUsernameAndPassword(String userName, String passWord);
+	UserEntity findOneByUsername(String userName);
 }
