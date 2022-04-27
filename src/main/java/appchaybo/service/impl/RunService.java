@@ -20,8 +20,6 @@ import appchaybo.service.IRunService;
 @Service
 public class RunService implements IRunService{
 	
-	@Autowired
-	private ActivitiesUserRepository userActivitiesRepository;
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -31,6 +29,9 @@ public class RunService implements IRunService{
 	
 	@Autowired
 	private RunConverter runConverter;
+	
+	@Autowired
+	private ActivitiesUserRepository userActivitiesRepository;
 
 	@Override
 	public RunDTO save(RunDTO runDTO) {

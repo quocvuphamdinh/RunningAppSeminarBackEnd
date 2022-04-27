@@ -3,6 +3,7 @@ package appchaybo.converter;
 import org.springframework.stereotype.Component;
 
 import appchaybo.dto.UserActivityDTO;
+import appchaybo.dto.UserActivityDetailDTO;
 import appchaybo.entity.UserActivityEntity;
 
 @Component
@@ -23,5 +24,13 @@ public class UserActivityConverter {
 		userActivityDTO.setMood(userActivityEntity.getMood());
 		userActivityDTO.setActivityId(userActivityEntity.getActivity().getId());
 		return userActivityDTO;
+	}
+	
+	public UserActivityDetailDTO toDetailDTO(UserActivityEntity userActivityEntity) {
+		UserActivityDetailDTO userActivityDetailDTO = new UserActivityDetailDTO();
+		userActivityDetailDTO.setId(userActivityEntity.getId());
+		userActivityDetailDTO.setComment(userActivityEntity.getComment());
+		userActivityDetailDTO.setMood(userActivityEntity.getMood());
+		return userActivityDetailDTO;
 	}
 }
