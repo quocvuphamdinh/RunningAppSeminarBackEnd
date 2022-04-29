@@ -1,6 +1,7 @@
 package appchaybo.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ public class UserActivityService implements IUserActivityService {
 
 	@Override
 	public List<UserActivityDetailDTO> getListUserActivity(Long userId) {
-		List<RunEntity> runEntities = runRepository2.findByUserId(userId);
+		List<RunEntity> runEntities = runRepository2.findByUserIdOrderByIdDesc(userId);
 		List<UserActivityDetailDTO> userActivityDetailDTOs = new ArrayList<UserActivityDetailDTO>();
 		for(int i = 0; i<runEntities.size();i++) {
 			UserActivityEntity userActivityEntity = activitiesUserRepository2.findOneByUserRunning(runEntities.get(i));
@@ -85,5 +86,26 @@ public class UserActivityService implements IUserActivityService {
 			}
 		}
 		return userActivityDetailDTOs;
+	}
+
+	@Override
+	public HashMap<String, String> calculateDataRecentActivity(Long userId) {
+		List<UserActivityDetailDTO> userActivityDetailDTOs = getListUserActivity(userId);
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		Integer distance = 0;
+		Long duration = 0L;
+		Integer caloriesBurned = 0;
+		Float avgSpeed = 0F;
+		for(int i = 0; i< userActivityDetailDTOs.size();i++) {
+			distance += userActivityDetailDTOs.get(i).getRun().getDistanceInKilometers();
+			duration += userActivityDetailDTOs.get(i).getRun().getTimeInMillis();
+			caloriesBurned += userActivityDetailDTOs.get(i).getRun().getCaloriesBurned();
+			avgSpeed += userActivityDetailDTOs.get(i).getRun().getAverageSpeedInKilometersPerHour();
+		}
+		hashMap.put("distance", distance.toString());
+		hashMap.put("duration", duration.toString());
+		hashMap.put("caloriesBurned", caloriesBurned.toString());
+		hashMap.put("avgSpeed", avgSpeed.toString());
+		return hashMap;
 	}
 }

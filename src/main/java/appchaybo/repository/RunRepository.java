@@ -10,4 +10,5 @@ public interface RunRepository extends JpaRepository<RunEntity, String>{
 	
 	List<RunEntity> findByUserId(Long userId);
 	RunEntity findOneById(String id);
+	List<RunEntity> findByUserIdOrderByIdDesc(Long userId);
 }

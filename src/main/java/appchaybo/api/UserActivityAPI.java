@@ -1,5 +1,6 @@
 package appchaybo.api;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,10 @@ public class UserActivityAPI {
 	@GetMapping(value = "/user-activity/{userId}")
 	public List<UserActivityDetailDTO> getListUserActivity(@PathVariable("userId") Long userId){
 		return userActivityService.getListUserActivity(userId);
+	}
+	
+	@GetMapping(value = "/user-activity/calculate-recent-activity/{userId}")
+	public HashMap<String, String> calculateDataRecentActivity(@PathVariable("userId") Long userId){
+		return userActivityService.calculateDataRecentActivity(userId);
 	}
 }
