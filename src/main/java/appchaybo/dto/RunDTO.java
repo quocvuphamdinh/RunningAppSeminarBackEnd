@@ -8,6 +8,7 @@ public class RunDTO{
 	private Integer distanceInKilometers;
 	private Long timeInMillis;
 	private Integer caloriesBurned;
+	private String img;
 	private Long userId;
 	private Long activitiesId;
 	
@@ -60,6 +61,11 @@ public class RunDTO{
 	public void setActivitiesId(Long activitiesId) {
 		this.activitiesId = activitiesId;
 	}
-	
+	public String getImg() {
+		return img;
+	}
+	public void setImg(String img) {
+		this.img = img;
+	}
 	
 }

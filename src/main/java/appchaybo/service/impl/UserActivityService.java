@@ -95,7 +95,7 @@ public class UserActivityService implements IUserActivityService {
 		Integer distance = 0;
 		Long duration = 0L;
 		Integer caloriesBurned = 0;
-		Float avgSpeed = 0F;
+		float avgSpeed = 0F;
 		for(int i = 0; i< userActivityDetailDTOs.size();i++) {
 			distance += userActivityDetailDTOs.get(i).getRun().getDistanceInKilometers();
 			duration += userActivityDetailDTOs.get(i).getRun().getTimeInMillis();
@@ -105,7 +105,8 @@ public class UserActivityService implements IUserActivityService {
 		hashMap.put("distance", distance.toString());
 		hashMap.put("duration", duration.toString());
 		hashMap.put("caloriesBurned", caloriesBurned.toString());
-		hashMap.put("avgSpeed", avgSpeed.toString());
+		avgSpeed = (float) (Math.round(avgSpeed * 100.0) / 100.0);
+		hashMap.put("avgSpeed", String.valueOf(avgSpeed));
 		return hashMap;
 	}
 }

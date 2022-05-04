@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "run")
 public class RunEntity {
@@ -36,7 +37,18 @@ public class RunEntity {
 	
 	@Column
 	private Integer caloriesBurned;
+	
+	@Column
+	private String image;
 
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
 
 	@ManyToOne
 	@JoinColumn(name = "user_id")
