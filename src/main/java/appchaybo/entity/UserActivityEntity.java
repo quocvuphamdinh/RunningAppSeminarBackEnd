@@ -13,6 +13,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "user_activity")
 public class UserActivityEntity {
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;

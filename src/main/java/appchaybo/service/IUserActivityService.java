@@ -8,6 +8,8 @@ import appchaybo.dto.UserActivityDetailDTO;
 
 public interface IUserActivityService {
 	UserActivityDTO insertUserActivity(UserActivityDTO activityDTO);
+	UserActivityDTO updateUserActivity(UserActivityDTO userActivityDTO);
 	List<UserActivityDetailDTO> getListUserActivity(Long userId);
 	HashMap<String, String> calculateDataRecentActivity(Long userId);
+	UserActivityDetailDTO getDetailUserActivity(Long userActivityId);
 }

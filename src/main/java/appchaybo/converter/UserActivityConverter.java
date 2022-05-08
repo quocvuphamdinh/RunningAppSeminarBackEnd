@@ -11,6 +11,9 @@ public class UserActivityConverter {
 	
 	public UserActivityEntity toEntity(UserActivityDTO userActivityDTO) {
 		UserActivityEntity userActivityEntity = new UserActivityEntity();
+		if(userActivityDTO.getId()!=null) {
+			userActivityEntity.setId(userActivityDTO.getId());
+		}
 		userActivityEntity.setComment(userActivityDTO.getComment());
 		userActivityEntity.setMood(userActivityDTO.getMood());
 		

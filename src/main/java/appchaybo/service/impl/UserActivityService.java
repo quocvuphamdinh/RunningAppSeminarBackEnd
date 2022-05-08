@@ -109,4 +109,31 @@ public class UserActivityService implements IUserActivityService {
 		hashMap.put("avgSpeed", String.valueOf(avgSpeed));
 		return hashMap;
 	}
+
+	@Override
+	public UserActivityDetailDTO getDetailUserActivity(Long userActivityId) {
+		UserActivityEntity userActivityEntity = activitiesUserRepository2.findOne(userActivityId);
+		ActivityDTO activityDTO = activityConverter.toDTO(userActivityEntity.getActivity());
+		RunDTO runDTO = runConverter.toDTO(userActivityEntity.getUserRunning());
+		UserActivityDetailDTO userActivityDetailDTO = userActivityConverter.toDetailDTO(userActivityEntity);
+		userActivityDetailDTO.setActivity(activityDTO);
+		userActivityDetailDTO.setRun(runDTO);
+		return userActivityDetailDTO;
+	}
+
+	@Override
+	public UserActivityDTO updateUserActivity(UserActivityDTO userActivityDTO) {
+		UserActivityEntity userActivityEntity = activitiesUserRepository2.findOne(userActivityDTO.getId());
+		RunEntity runEntity = runRepository2.findOne(userActivityDTO.getRun().getId());
+		UserEntity userEntity = userRepository.findOne(userActivityDTO.getRun().getUserId());
+		runEntity.setUser(userEntity);
+		ActivityEntity activityEntity = activityRepository.findOne(userActivityDTO.getActivityId());
+		userActivityEntity = userActivityConverter.toEntity(userActivityDTO);
+		userActivityEntity.setUserRunning(runEntity);
+		userActivityEntity.setActivity(activityEntity);
+		userActivityEntity =activitiesUserRepository2.save(userActivityEntity);
+		userActivityDTO = userActivityConverter.toDTO(userActivityEntity);
+		userActivityDTO.setRun(runConverter.toDTO(runEntity));
+		return userActivityDTO;
+	}
 }
