@@ -40,7 +40,18 @@ public class RunEntity {
 	
 	@Column
 	private String image;
+	
+	@Column
+	private Integer isRunWithExercise;
 
+
+	public Integer getIsRunWithExercise() {
+		return isRunWithExercise;
+	}
+
+	public void setIsRunWithExercise(Integer isRunWithExercise) {
+		this.isRunWithExercise = isRunWithExercise;
+	}
 
 	public String getImage() {
 		return image;
@@ -117,6 +128,4 @@ public class RunEntity {
 	public String getId() {
 		return id;
 	}
-	
-	
 }

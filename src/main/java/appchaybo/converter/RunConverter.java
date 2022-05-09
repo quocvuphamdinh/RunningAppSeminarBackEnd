@@ -20,6 +20,7 @@ public class RunConverter {
 		runEntity.setTimeInMillis(new Date(runDTO.getTimeInMillis()));
 		runEntity.setCaloriesBurned(runDTO.getCaloriesBurned());
 		runEntity.setImage(runDTO.getImg());
+		runEntity.setIsRunWithExercise(runDTO.getIsRunWithExercise());
 		return runEntity;
 	}
 	
@@ -32,6 +33,7 @@ public class RunConverter {
 		runDTO.setTimeInMillis(runEntity.getTimeInMillis().getTime());
 		runDTO.setCaloriesBurned(runEntity.getCaloriesBurned());
 		runDTO.setImg(runEntity.getImage());
+		runDTO.setIsRunWithExercise(runEntity.getIsRunWithExercise());
 		runDTO.setUserId(runEntity.getUser().getId());
 		if(runEntity.getUserActivityEntities().size()>0) {
 			runDTO.setActivitiesId(runEntity.getUserActivityEntities().get(0).getId());
@@ -46,6 +48,7 @@ public class RunConverter {
 		runEntity.setTimeInMillis(new Date(runDTO.getTimeInMillis()));
 		runEntity.setCaloriesBurned(runDTO.getCaloriesBurned());
 		runEntity.setImage(runDTO.getImg());
+		runEntity.setIsRunWithExercise(runDTO.getIsRunWithExercise());
 		return runEntity;
 	}
 }

@@ -9,6 +9,7 @@ public class RunDTO{
 	private Long timeInMillis;
 	private Integer caloriesBurned;
 	private String img;
+	private Integer isRunWithExercise;
 	private Long userId;
 	private Long activitiesId;
 	
@@ -67,5 +68,10 @@ public class RunDTO{
 	public void setImg(String img) {
 		this.img = img;
 	}
-	
+	public Integer getIsRunWithExercise() {
+		return isRunWithExercise;
+	}
+	public void setIsRunWithExercise(Integer isRunWithExercise) {
+		this.isRunWithExercise = isRunWithExercise;
+	}
 }

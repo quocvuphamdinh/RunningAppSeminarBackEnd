@@ -1,6 +1,7 @@
 package appchaybo.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +62,26 @@ public class RunService implements IRunService{
 			listRunDTO.add(runConverter.toDTO(runEntity.get(i)));
 		}
 		return listRunDTO;
+	}
+
+	@Override
+	public HashMap<String, String> deleteRun(RunDTO run) {
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		try {
+			RunEntity runEntity = runRepository.findOne(run.getId());
+			if(runEntity==null) {
+				runEntity = runRepository.save(runConverter.toEntity(run));
+			}
+			UserActivityEntity userActivityEntity = userActivitiesRepository.findOneByUserRunning(runEntity);
+			if(userActivityEntity!=null) {
+				userActivitiesRepository.delete(userActivityEntity);
+			}
+			runRepository.delete(runEntity);
+			hashMap.put("message", "Delete run successfully !");
+			return hashMap;
+		}catch (Exception e) {
+			hashMap.put("message", "Delete run failed !");
+			return hashMap;
+		}
 	}
 }
