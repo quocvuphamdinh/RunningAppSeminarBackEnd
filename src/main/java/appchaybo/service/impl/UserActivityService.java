@@ -136,4 +136,18 @@ public class UserActivityService implements IUserActivityService {
 		userActivityDTO.setRun(runConverter.toDTO(runEntity));
 		return userActivityDTO;
 	}
+
+	@Override
+	public HashMap<String, Boolean> deleteUserActivity(Long userActivityId) {
+		HashMap<String, Boolean> hashMap = new HashMap<String, Boolean>();
+		UserActivityEntity userActivityEntity = activitiesUserRepository2.findOne(userActivityId);
+		activitiesUserRepository2.delete(userActivityEntity);
+		UserActivityEntity userActivityEntity2 = activitiesUserRepository2.findOne(userActivityId);
+		if(userActivityEntity2==null) {
+			hashMap.put("success", true);
+		}else {
+			hashMap.put("success", false);
+		}
+		return hashMap;
+	}
 }

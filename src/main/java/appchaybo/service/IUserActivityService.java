@@ -12,4 +12,5 @@ public interface IUserActivityService {
 	List<UserActivityDetailDTO> getListUserActivity(Long userId);
 	HashMap<String, String> calculateDataRecentActivity(Long userId);
 	UserActivityDetailDTO getDetailUserActivity(Long userActivityId);
+	HashMap<String, Boolean> deleteUserActivity(Long userActivityId);
 }

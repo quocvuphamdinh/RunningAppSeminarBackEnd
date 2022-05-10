@@ -10,9 +10,13 @@ import appchaybo.converter.ActivityConverter;
 import appchaybo.dto.ActivityDTO;
 import appchaybo.entity.ActivityEntity;
 import appchaybo.entity.ActivityWorkoutEntity;
+import appchaybo.entity.RunEntity;
+import appchaybo.entity.UserActivityEntity;
 import appchaybo.entity.WorkoutEntity;
+import appchaybo.repository.ActivitiesUserRepository;
 import appchaybo.repository.ActivityRepository;
 import appchaybo.repository.ActivityWorkoutRepository;
+import appchaybo.repository.RunRepository;
 import appchaybo.repository.WorkoutRepository;
 import appchaybo.service.IActivityService;
 
@@ -30,9 +34,15 @@ public class ActivityService implements IActivityService{
 	
 	@Autowired
 	private WorkoutRepository workoutRepository;
-
+	
+	@Autowired
+	private ActivitiesUserRepository activitiesUserRepository;
+	
+	@Autowired
+	private RunRepository runRepository;
+	
 	@Override
-	public List<ActivityDTO> findByType(Integer type) {
+	public List<ActivityDTO> findByType(Integer type, Long userId) {
 		List<ActivityEntity> activityEntities = activityRepository.findByType(type);
 		List<ActivityDTO> activityDTOs = new ArrayList<ActivityDTO>();
 		for(int i =0 ; i< activityEntities.size(); i++) {
@@ -41,7 +51,32 @@ public class ActivityService implements IActivityService{
 				WorkoutEntity workoutEntity = workoutRepository.findOne(activityWorkoutEntities.get(j).getWorkout().getId());
 				activityWorkoutEntities.get(j).setWorkout(workoutEntity);
 			}
-			activityDTOs.add(activityConverter.toDTO(activityEntities.get(i)));
+			List<RunEntity> runEntity = runRepository.findByUserId(userId);
+			List<UserActivityEntity> userActivityEntity = new ArrayList<UserActivityEntity>();
+			for(int u =0;u<runEntity.size();u++) {
+				UserActivityEntity userActivityEntity2 = activitiesUserRepository.findOneByUserRunning(runEntity.get(u));
+				if(userActivityEntity2!=null) {
+					userActivityEntity.add(userActivityEntity2);
+				}
+			}
+			Boolean check = false;
+			ActivityDTO activityDTO = activityConverter.toDTO(activityEntities.get(i));
+			for(int l=0;l<userActivityEntity.size();l++) {
+				RunEntity runEntity2 = userActivityEntity.get(l).getUserRunning();
+				Long duration = 0L;
+				for(int k =0 ; k<activityEntities.get(i).getActivityWorkoutEntities().size();k++) {
+					duration+=activityEntities.get(i).getActivityWorkoutEntities().get(k).getWorkout().getDuration();
+				}
+				if(runEntity2.getTimeInMillis().getTime() >= duration) {
+					activityDTO.setIsCompleted(1);
+					check = true;
+					break;
+				}
+			}
+			if(!check) {
+				activityDTO.setIsCompleted(0);
+			}
+			activityDTOs.add(activityDTO);
 		}
 		return activityDTOs;
 	}

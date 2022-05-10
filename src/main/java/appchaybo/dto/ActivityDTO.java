@@ -8,6 +8,8 @@ public class ActivityDTO extends AbstractDTO<ActivityDTO>{
 	private Integer type;
 	private Integer durationOfWorkouts;
 	private List<WorkoutDTO> workouts = new  ArrayList<WorkoutDTO>();
+	private Integer isCompleted; //0 là chưa completed, 1 là completed
+	
 	public String getName() {
 		return name;
 	}
@@ -32,6 +34,10 @@ public class ActivityDTO extends AbstractDTO<ActivityDTO>{
 	public void setWorkouts(List<WorkoutDTO> workouts) {
 		this.workouts = workouts;
 	}
-	
-	
+	public Integer getIsCompleted() {
+		return isCompleted;
+	}
+	public void setIsCompleted(Integer isCompleted) {
+		this.isCompleted = isCompleted;
+	}
 }

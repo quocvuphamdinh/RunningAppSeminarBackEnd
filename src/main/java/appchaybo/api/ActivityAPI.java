@@ -16,9 +16,9 @@ public class ActivityAPI {
 	@Autowired
 	private IActivityService activityService;
 	
-	@GetMapping(value = "/activity/{type}")
-	public List<ActivityDTO> getListActivity(@PathVariable("type") Integer type){
-		return activityService.findByType(type);
+	@GetMapping(value = "/activity/{type}/{userId}")
+	public List<ActivityDTO> getListActivity(@PathVariable("type") Integer type, @PathVariable("userId") Long userId){
+		return activityService.findByType(type, userId);
 	}
 	
 	@GetMapping(value = "/activity/detail/{id}")
