@@ -15,4 +15,10 @@ public class WorkoutConverter {
 		dto.setDuration(entity.getDuration());
 		return dto;
 	}
+	public WorkoutEntity toEntity(WorkoutDTO dto) {
+		WorkoutEntity workoutEntity = new WorkoutEntity();
+		workoutEntity.setName(dto.getName());
+		workoutEntity.setDuration(dto.getDuration());
+		return workoutEntity;
+	}
 }

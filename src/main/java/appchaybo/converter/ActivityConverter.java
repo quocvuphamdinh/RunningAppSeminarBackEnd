@@ -29,4 +29,11 @@ public class ActivityConverter {
 		dto.setWorkouts(workouts);
 		return dto;
 	}
+	public ActivityEntity toEntity(ActivityDTO activityDTO) {
+		ActivityEntity activityEntity = new ActivityEntity();
+		activityEntity.setDurationOfWorkouts(activityDTO.getDurationOfWorkouts());
+		activityEntity.setName(activityDTO.getName());
+		activityEntity.setType(activityDTO.getType());
+		return activityEntity;
+	}
 }

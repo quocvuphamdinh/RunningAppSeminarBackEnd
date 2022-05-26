@@ -93,4 +93,22 @@ public class ActivityService implements IActivityService{
 		activityDTO = activityConverter.toDTO(activityEntity);
 		return activityDTO;
 	}
+
+	@Override
+	public ActivityDTO insertActivity(ActivityDTO activityDTO) {
+		ActivityEntity activityEntity = activityConverter.toEntity(activityDTO);
+		activityEntity = activityRepository.save(activityEntity);
+		return activityConverter.toDTO(activityEntity);
+	}
+
+	@Override
+	public List<ActivityDTO> findAllActivities() {
+		List<ActivityEntity> activityEntities = activityRepository.findAll();
+		List<ActivityDTO> activityDTOs = new ArrayList<ActivityDTO>();
+		for(int i = 0; i<activityEntities.size();i++) {
+			ActivityDTO activityDTO = activityConverter.toDTO(activityEntities.get(i));
+			activityDTOs.add(activityDTO);
+		}
+		return activityDTOs;
+	}
 }
