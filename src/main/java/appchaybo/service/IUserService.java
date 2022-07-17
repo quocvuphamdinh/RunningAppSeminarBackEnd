@@ -11,4 +11,6 @@ public interface IUserService {
 	//UserDTO update(UserDTO userDTO);
 	HashMap<String, String> resetPassword(String email);
 	UserDTO checkEmailUser(String email);
+	HashMap<String, String> checkEmailExists(String email);
+	HashMap<String, String> checkOTPCode(String otp);
 }

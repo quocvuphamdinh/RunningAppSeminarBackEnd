@@ -38,6 +38,8 @@ public class UserService implements IUserService{
 	private UserConverter userConverter;
 	
 	private SecureRandom sRandom = new SecureRandom();
+	
+	private String otpCode = "";
 
 	@Override
 	public UserDTO save(UserDTO userDTO) {
@@ -64,12 +66,12 @@ public class UserService implements IUserService{
 	@Override
 	public HashMap<String, String> resetPassword(String email) {
 		UserEntity userEntity = userRepository.findOneByUsername(email);
-		String newPassword = getRandomPassword(6);
+		String newPassword = getRandomPassword(6, true);
 		userEntity.setPassword(newPassword);
 		userEntity = userRepository.save(userEntity);
 //		prepare send mail
 		String systemEmail = resourceBundleMail.getString("email_verify");
-		String passEmail = resourceBundleMail.getString("password_verify");
+		String passEmail = resourceBundleMail.getString("password_verify2");
 		Properties prop = new Properties();
 		prop.put("mail.smtp.host", "smtp.gmail.com");
 		prop.put("mail.smtp.socketFactory.port", "465");
@@ -103,8 +105,14 @@ public class UserService implements IUserService{
 		return hashMap;
 	}
 	
-	private String getRandomPassword(Integer _lenght) {
-		String alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	private String getRandomPassword(Integer _lenght, boolean isHaveText) {
+		String alphabet = "";
+		if(isHaveText) {
+			alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+		}
+		else {
+			alphabet = "0123456789";
+		}
 		StringBuilder secretPassword = new StringBuilder("");
 		for (int i = 0; i < _lenght; i++) {
 			int index = sRandom.nextInt(alphabet.length());
@@ -120,5 +128,55 @@ public class UserService implements IUserService{
 			return userConverter.toDTO(userEntity);
 		}
 		return new UserDTO("", "", "", "", "", 0, 0, 0L);
+	}
+
+	@Override
+	public HashMap<String, String> checkEmailExists(String email) {
+//		prepare send mail
+		otpCode = getRandomPassword(4, false);
+		String systemEmail = resourceBundleMail.getString("email_verify");
+		String passEmail = resourceBundleMail.getString("password_verify2");
+		Properties prop = new Properties();
+		prop.put("mail.smtp.host", "smtp.gmail.com");
+		prop.put("mail.smtp.socketFactory.port", "465");
+		prop.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		prop.put("mail.smtp.auth", "true");
+		prop.put("mail.smtp.port", "587");
+		prop.put("mail.smtp.starttls.enable", "true");
+		Session sessionMail = Session.getInstance(prop, new Authenticator() {
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(systemEmail, passEmail);
+			}
+		});
+//		send mail
+		String sendTo = email;
+		String emailSubject = resourceBundleMail.getString("subject_check_email");
+		String emailContent = "Your OTP: " + otpCode;
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		try {
+			Message messageMail = new MimeMessage(sessionMail);
+			messageMail.setFrom(new InternetAddress(systemEmail));
+			messageMail.setRecipients(Message.RecipientType.TO, InternetAddress.parse(sendTo));
+			messageMail.setSubject(emailSubject);
+			messageMail.setText(emailContent);
+			Transport.send(messageMail);
+			hashMap.put("message", "Please check your email to get OTP code");
+			return hashMap;
+		} catch (MessagingException e) {
+			e.printStackTrace();
+		} 
+		hashMap.put("message", "Failed to send email");
+		return hashMap;
+	}
+
+	@Override
+	public HashMap<String, String> checkOTPCode(String otp) {
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		if(otp.equals(otpCode)) {
+			hashMap.put("message", "OK");
+		}else {
+			hashMap.put("message", "NO");
+		}
+		return hashMap;
 	}
 }

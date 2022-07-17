@@ -44,4 +44,14 @@ public class UserAPI {
 	public UserDTO checkEmailUser(@PathVariable("userName") String userName) {
 		return userService.checkEmailUser(userName+".com");
 	}
+	
+	@PostMapping(value = "/user/checkemailexist/{email}")
+	public HashMap<String, String> checkEmailExists(@PathVariable String email){
+		return userService.checkEmailExists(email+".com");
+	}
+	
+	@PostMapping(value = "/user/checkotpcode/{otp}")
+	public HashMap<String, String> checkOTPCode(@PathVariable String otp){
+		return userService.checkOTPCode(otp);
+	}
 }
