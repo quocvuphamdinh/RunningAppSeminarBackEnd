@@ -15,13 +15,17 @@ import appchaybo.dto.RunDTO;
 import appchaybo.dto.UserActivityDTO;
 import appchaybo.dto.UserActivityDetailDTO;
 import appchaybo.entity.ActivityEntity;
+import appchaybo.entity.ActivityWorkoutEntity;
 import appchaybo.entity.RunEntity;
 import appchaybo.entity.UserActivityEntity;
 import appchaybo.entity.UserEntity;
+import appchaybo.entity.WorkoutEntity;
 import appchaybo.repository.ActivitiesUserRepository;
 import appchaybo.repository.ActivityRepository;
+import appchaybo.repository.ActivityWorkoutRepository;
 import appchaybo.repository.RunRepository;
 import appchaybo.repository.UserRepository;
+import appchaybo.repository.WorkoutRepository;
 import appchaybo.service.IUserActivityService;
 
 @Service
@@ -49,6 +53,12 @@ public class UserActivityService implements IUserActivityService {
 	@Autowired
 	private ActivitiesUserRepository activitiesUserRepository2;
 	
+	@Autowired
+	private ActivityWorkoutRepository activityWorkoutRepository;
+	
+	@Autowired
+	private WorkoutRepository workoutRepository;
+	
 	
 	@Override
 	public UserActivityDTO insertUserActivity(UserActivityDTO activityDTO) {
@@ -71,18 +81,29 @@ public class UserActivityService implements IUserActivityService {
 	}
 
 	@Override
-	public List<UserActivityDetailDTO> getListUserActivity(Long userId) {
+	public List<UserActivityDetailDTO> getListUserActivity(Long userId, Long page) {
 		List<RunEntity> runEntities = runRepository2.findByUserIdOrderByIdDesc(userId);
 		List<UserActivityDetailDTO> userActivityDetailDTOs = new ArrayList<UserActivityDetailDTO>();
 		for(int i = 0; i<runEntities.size();i++) {
 			UserActivityEntity userActivityEntity = activitiesUserRepository2.findOneByUserRunning(runEntities.get(i));
 			if(userActivityEntity!=null) {
+				List<ActivityWorkoutEntity> activityWorkoutEntities = activityWorkoutRepository.findByActivityId(userActivityEntity.getActivity().getId());
+				int durationInMinute = 0;
+				for(int j =0 ;j < activityWorkoutEntities.size() ; j++) {
+					WorkoutEntity workoutEntity = workoutRepository.findOne(activityWorkoutEntities.get(j).getWorkout().getId());
+					durationInMinute += (workoutEntity.getDuration() / 60000F);
+				}
+				userActivityEntity.getActivity().setDurationOfWorkouts(durationInMinute);
 				ActivityDTO activityDTO = activityConverter.toDTO(userActivityEntity.getActivity());
 				RunDTO runDTO = runConverter.toDTO(userActivityEntity.getUserRunning());
 				UserActivityDetailDTO userActivityDetailDTO = userActivityConverter.toDetailDTO(userActivityEntity);
 				userActivityDetailDTO.setActivity(activityDTO);
 				userActivityDetailDTO.setRun(runDTO);
 				userActivityDetailDTOs.add(userActivityDetailDTO);
+				
+				if(userActivityDetailDTOs.size() == page && page != 0L) {
+					break;
+				}
 			}
 		}
 		return userActivityDetailDTOs;
@@ -90,7 +111,7 @@ public class UserActivityService implements IUserActivityService {
 
 	@Override
 	public HashMap<String, String> calculateDataRecentActivity(Long userId) {
-		List<UserActivityDetailDTO> userActivityDetailDTOs = getListUserActivity(userId);
+		List<UserActivityDetailDTO> userActivityDetailDTOs = getListUserActivity(userId, 0L);
 		HashMap<String, String> hashMap = new HashMap<String, String>();
 		Integer distance = 0;
 		Long duration = 0L;

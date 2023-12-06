@@ -44,7 +44,7 @@ public class UserService implements IUserService{
 	@Override
 	public UserDTO save(UserDTO userDTO) {
 		UserEntity userEntity = new UserEntity();
-		if(userDTO.getId()!=0L) {
+		if(userDTO.getId()!=null) {
 			UserEntity oldUser = userRepository.findOne(userDTO.getId());
 			userEntity = userConverter.toEntity(userDTO, oldUser);
 		}else {

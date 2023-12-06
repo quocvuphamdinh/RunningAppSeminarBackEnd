@@ -47,8 +47,10 @@ public class ActivityService implements IActivityService{
 		List<ActivityDTO> activityDTOs = new ArrayList<ActivityDTO>();
 		for(int i =0 ; i< activityEntities.size(); i++) {
 			List<ActivityWorkoutEntity> activityWorkoutEntities = activityWorkoutRepository.findByActivityId(activityEntities.get(i).getId());
+			int durationInMinute = 0;
 			for(int j =0 ;j < activityWorkoutEntities.size() ; j++) {
 				WorkoutEntity workoutEntity = workoutRepository.findOne(activityWorkoutEntities.get(j).getWorkout().getId());
+				durationInMinute += (workoutEntity.getDuration() / 60000F);
 				activityWorkoutEntities.get(j).setWorkout(workoutEntity);
 			}
 			List<RunEntity> runEntity = runRepository.findByUserId(userId);
@@ -76,6 +78,7 @@ public class ActivityService implements IActivityService{
 			if(!check) {
 				activityDTO.setIsCompleted(0);
 			}
+			activityDTO.setDurationOfWorkouts(durationInMinute);
 			activityDTOs.add(activityDTO);
 		}
 		return activityDTOs;

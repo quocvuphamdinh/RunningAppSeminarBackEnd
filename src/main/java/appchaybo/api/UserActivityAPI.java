@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import appchaybo.dto.UserActivityDTO;
@@ -35,8 +36,8 @@ public class UserActivityAPI {
 	}
 	
 	@GetMapping(value = "/user-activity/{userId}")
-	public List<UserActivityDetailDTO> getListUserActivity(@PathVariable("userId") Long userId){
-		return userActivityService.getListUserActivity(userId);
+	public List<UserActivityDetailDTO> getListUserActivity(@PathVariable("userId") Long userId, @RequestParam("page") Long page){
+		return userActivityService.getListUserActivity(userId, page);
 	}
 	
 	@GetMapping(value = "/user-activity/calculate-recent-activity/{userId}")
