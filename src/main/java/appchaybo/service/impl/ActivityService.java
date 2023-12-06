@@ -42,7 +42,7 @@ public class ActivityService implements IActivityService{
 	private RunRepository runRepository;
 	
 	@Override
-	public List<ActivityDTO> findByType(Integer type, Long userId) {
+	public List<ActivityDTO> findByType(Integer type, Long userId, Long size) {
 		List<ActivityEntity> activityEntities = activityRepository.findByType(type);
 		List<ActivityDTO> activityDTOs = new ArrayList<ActivityDTO>();
 		for(int i =0 ; i< activityEntities.size(); i++) {
@@ -80,6 +80,10 @@ public class ActivityService implements IActivityService{
 			}
 			activityDTO.setDurationOfWorkouts(durationInMinute);
 			activityDTOs.add(activityDTO);
+			
+			if(activityDTOs.size() == size && size != 0L) {
+				break;
+			}
 		}
 		return activityDTOs;
 	}
