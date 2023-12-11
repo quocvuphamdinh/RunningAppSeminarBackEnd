@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 
 import appchaybo.dto.UserActivityDTO;
 import appchaybo.dto.UserActivityDetailDTO;
+import appchaybo.entity.ActivityEntity;
+import appchaybo.entity.RunEntity;
 import appchaybo.entity.UserActivityEntity;
 
 @Component
@@ -17,6 +19,14 @@ public class UserActivityConverter {
 		userActivityEntity.setComment(userActivityDTO.getComment());
 		userActivityEntity.setMood(userActivityDTO.getMood());
 		
+		return userActivityEntity;
+	}
+	
+	public UserActivityEntity toEntity(UserActivityDTO userActivityDTO, ActivityEntity activityEntity, RunEntity runEntity, UserActivityEntity userActivityEntity) {
+		userActivityEntity.setActivity(activityEntity);
+		userActivityEntity.setUserRunning(runEntity);
+		userActivityEntity.setComment(userActivityDTO.getComment());
+		userActivityEntity.setMood(userActivityDTO.getMood());
 		return userActivityEntity;
 	}
 	

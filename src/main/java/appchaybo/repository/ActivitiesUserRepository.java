@@ -12,4 +12,5 @@ public interface ActivitiesUserRepository extends JpaRepository<UserActivityEnti
 	
 	public UserActivityEntity findOneByUserRunning(RunEntity runEntity);
 	public List<UserActivityEntity> findByActivity(ActivityEntity activityEntity);
+	public UserActivityEntity findOneByActivityAndUserRunning(ActivityEntity activityEntity, RunEntity runEntity);
 }

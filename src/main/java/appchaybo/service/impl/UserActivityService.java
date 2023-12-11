@@ -65,24 +65,29 @@ public class UserActivityService implements IUserActivityService {
 		UserActivityEntity userActivityEntity = new UserActivityEntity();
 		RunEntity runEntity = runConverter.toEntity(activityDTO.getRun());
 		ActivityEntity activityEntity = activityRepository.findOne(activityDTO.getActivityId());
-		userActivityEntity =  userActivityConverter.toEntity(activityDTO);
+		UserActivityEntity userActivityEntityOld = activitiesUserRepository2.findOneByActivityAndUserRunning(activityEntity, runEntity);
 		UserEntity userEntity = userRepository.findOne(activityDTO.getRun().getUserId());
 		runEntity.setUser(userEntity);
-		userActivityEntity.setUserRunning(runEntity);
-		userActivityEntity.setActivity(activityEntity);
+		if(userActivityEntityOld != null) {
+			userActivityEntity = userActivityConverter.toEntity(activityDTO, activityEntity, runEntity, userActivityEntityOld);
+		}else {
+			userActivityEntity =  userActivityConverter.toEntity(activityDTO);
+			userActivityEntity.setUserRunning(runEntity);
+			userActivityEntity.setActivity(activityEntity);
+		}
 		userActivityEntity = activitiesUserRepository2.save(userActivityEntity);
 		UserActivityDTO userActivityDTO = new UserActivityDTO();
 		if(userActivityEntity!=null) {
 			userActivityDTO = userActivityConverter.toDTO(userActivityEntity);
 			userActivityDTO.setRun(runConverter.toDTO(runEntity));
 			return userActivityDTO;
-		}
+		}	
 		return null;
 	}
 
 	@Override
 	public List<UserActivityDetailDTO> getListUserActivity(Long userId, Long page) {
-		List<RunEntity> runEntities = runRepository2.findByUserIdOrderByIdDesc(userId);
+		List<RunEntity> runEntities = runRepository2.findByUserIdOrderByRunTimeDesc(userId);
 		List<UserActivityDetailDTO> userActivityDetailDTOs = new ArrayList<UserActivityDetailDTO>();
 		for(int i = 0; i<runEntities.size();i++) {
 			UserActivityEntity userActivityEntity = activitiesUserRepository2.findOneByUserRunning(runEntities.get(i));
